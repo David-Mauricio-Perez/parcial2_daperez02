@@ -1,0 +1,160 @@
+5. Requisitos de entrega en Git
+
+Cada estudiante deberá entregar un único repositorio denominado: parcial2_nombrecorreoinstitucional ejemplo: parcial2_raranda y la rama de siempre dev_nombrecorreo ejemplo dev_raranda, con la siguiente estructura mínima:
+Carpeta docs
+Readme.md
+
+El archivo README.md deberá contener el resumen ejecutivo de la propuesta, instrucciones para navegar por la documentación, tecnologías utilizadas, etc.
+Reglas claves:
+
+    Minimo UN commit por CADA actividad
+    En El MD de CADA actividad debe ir su nombre con documento Al inicio
+
+6. Uso de herramientas de Inteligencia Artificial
+
+Se permite utilizar herramientas de IA para investigación, generación de alternativas, etc.
+
+Sin embargo, el estudiante es responsable de verificar los resultados y demostrar su comprensión.
+
+No se evalúa la cantidad de contenido producido, sino la calidad del razonamiento y la evidencia que lo respalda.
+CADA actividad vale 1 Punto para UN total de 5.
+
+
+4. Actividades y entregables
+Actividad 1. Identificación y priorización de drivers arquitectónicos
+
+Competencia: Identificar los impulsores arquitectónicos (Architectural Drivers) que condicionan las decisiones estructurales y tecnológicas de un sistema.
+
+A partir del caso, el estudiante deberá:
+
+    Identificar mínimo 2 objetivos de negocio.
+
+    Identificar mínimo 4 drivers asociados con atributos de calidad.
+
+    Identificar mínimo 3 restricciones arquitectónicas.
+
+    Clasificar y priorizar los drivers de acuerdo con su impacto.
+
+    Formular escenarios de calidad verificables, indicando estímulo, contexto, respuesta esperada y medida cuantificable.
+
+    Identificar al menos 2 conflictos entre drivers y explicar cómo se propone resolverlos.
+
+Entregable: docs/actividad1.md
+
+Debe contener una matriz con identificador, descripción, origen, prioridad, medida de aceptación y justificación.
+
+Criterio clave: No se aceptarán afirmaciones genéricas como «el sistema debe ser rápido, seguro y escalable» sin métricas, condiciones de operación y argumentos.
+Actividad 2. Diseño de la estructura arquitectónica
+
+Competencia: Diseñar y justificar la estructura de una solución de software a partir de los drivers identificados.
+
+El estudiante deberá seleccionar y justificar un estilo arquitectónico, considerando alternativas como monolito modular, arquitectura en capas, clean, hexagonal, etc. según las que hemos abordado.
+
+Se deberán entregar los siguientes diagramas utilizando el modelo C4 (Context, Containers, Components, Code):
+
+    Nivel 1 – Contexto: Actores, sistema principal y sistemas externos.
+
+    Nivel 2 – Contenedores: Aplicaciones, servicios, almacenamiento, integraciones y responsabilidades.
+
+    Nivel 3 – Componentes: Descomposición del módulo responsable de las inscripciones y del control de cupos.
+
+Adicionalmente, deberán identificar responsabilidades, dependencias, límites transaccionales y principales mecanismos de comunicación.
+
+Entregables:
+
+    docs/actividad2.md
+
+    docs/diagramas/
+
+Los diagramas deberán usar formatos vectoriales o minimo PNG.
+
+Criterio clave: La estructura propuesta debe responder a los drivers priorizados. Cada componente importante deberá tener una responsabilidad identificable y justificar su existencia.
+
+No se calificará favorablemente una arquitectura por tener más servicios, tecnologías o componentes.
+Actividad 3. Registros de Decisiones Arquitectónicas (ADR)
+
+Competencia: Evaluar alternativas técnicas, justificar decisiones y documentar sus consecuencias.
+
+El estudiante  deberá elaborar tres ADR (Architectural Decision Record o Registro de Decisión Arquitectónica) relacionados con:
+
+    Selección del estilo arquitectónico.
+
+    Estrategia para mantener la consistencia de las inscripciones y los cupos.
+
+    Estrategia de integración y manejo de fallas del sistema legado.
+
+    Una decisión adicional directamente relacionada con un driver de alta prioridad.
+
+Cada ADR deberá incluir:
+
+    Identificador, título, fecha y estado.
+
+    Contexto y problema que requiere la decisión.
+
+    Driver arquitectónico relacionado.
+
+    Mínimo dos alternativas técnicamente viables.
+
+    Criterios utilizados para comparar las alternativas.
+
+    Decisión seleccionada y su justificación.
+
+    Consecuencias positivas, negativas y riesgos.
+
+    Condiciones que justificarían revisar la decisión.
+
+Entregable: docs/actividad3/ con tres archivos independientes.
+
+Criterio clave: No se aceptará justificar decisiones únicamente porque una tecnología es popular o porque una herramienta de IA la recomienda. El estudiante deberá explicar por qué la opción seleccionada es apropiada para las restricciones de la universidad.
+Actividad 4. Selección y validación de tácticas arquitectónicas
+
+Competencia: Seleccionar tácticas arquitectónicas que permitan satisfacer atributos de calidad y demostrar su efecto.
+
+El estudiente deberá identificar mínimo tres tácticas arquitectónicas relacionadas con los drivers priorizados.
+
+Para cada táctica deberá documentar:
+
+    Atributo de calidad que busca mejorar.
+
+    Problema específico que pretende resolver.
+
+    Componentes en los cuales se implementaría.
+
+    Funcionamiento técnico.
+
+    Beneficios y costos asociados.
+
+    Mecanismo para verificar su efectividad.
+
+Entregables:
+
+    docs/actividad4.md
+
+Criterio clave: Una táctica no se considera validada simplemente por mencionarla, incluirla en un diagrama o entregar una captura de pantalla. Debe existir una explicación del alcance.
+Actividad 5. Gobernanza de arquitectura
+
+Competencia: Definir mecanismos de control que permitan mantener la coherencia arquitectónica durante la evolución del software.
+
+El estudiante deberá proponer un modelo de gobernanza apropiado para el tamaño del proyecto y el equipo de mantenimiento institucional.
+
+La propuesta debe definir:
+
+    Tres políticas o reglas arquitectónicas verificables.
+
+    Responsables de aprobar cambios significativos de arquitectura.
+
+    Procedimiento para proponer, revisar, aprobar y actualizar un ADR.
+
+    Al menos dos mecanismos de control automático integrados al repositorio, de los cuales uno debe verificar una regla arquitectónica y otro ejecutar las pruebas automatizadas.
+
+    Procedimiento para manejar excepciones, incumplimientos y deuda técnica.
+
+    Estrategia para asegurar que la documentación y los diagramas evolucionen junto con la solución.
+
+Se deberá incluir una definición explícita de los criterios para aceptar o rechazar un cambio mediante una solicitud de integración (Pull Request).
+
+Entregables:
+
+    docs/actividad5.md
+
+Criterio clave: La gobernanza debe ser aplicable y verificable. Una simple lista de buenas prácticas sin responsables, mecanismos de cumplimiento ni procedimientos de excepción será considerada insuficiente.

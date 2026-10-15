@@ -1,0 +1,73 @@
+1. Contexto del caso
+
+La Universidad de la Salle cuenta con aproximadamente 24.000 estudiantes, 1.100 docentes y cinco facultades.
+
+Actualmente, los procesos de inscripción de asignaturas se realizan mediante un sistema académico desarrollado hace más de 12 años. Aunque este sistema mantiene la información oficial de estudiantes, asignaturas y antecedentes académicos, presenta dificultades durante los períodos de matrícula.
+
+Entre los problemas identificados se encuentran:
+
+    Lentitud y fallas de disponibilidad cuando múltiples estudiantes acceden simultáneamente.
+
+    Inscripciones duplicadas originadas por reintentos de los usuarios.
+
+    Inconsistencias en la disponibilidad de cupos de las asignaturas.
+
+    Dependencia de un sistema académico legado para consultar prerrequisitos.
+
+    Dificultades para identificar y auditar modificaciones en las inscripciones.
+
+    Alto esfuerzo técnico para implementar nuevas reglas académicas.
+
+La universidad ha aprobado el desarrollo de una nueva Plataforma de Inscripción Académica (PIA). Sin embargo, antes de iniciar su construcción, requiere una propuesta de arquitectura que demuestre su viabilidad y establezca criterios para orientar al futuro equipo de desarrollo.
+
+Los estudiantes asumirán el rol de un arquitectos de software contratado para elaborar esta propuesta.
+2. Requisitos y restricciones suministrados por la universidad
+2.1 Requisitos funcionales
+
+La nueva plataforma deberá permitir:
+
+    Consultar asignaturas y grupos disponibles para el período académico.
+
+    Inscribir asignaturas verificando prerrequisitos, conflictos de horario y disponibilidad de cupos.
+
+    Cancelar inscripciones dentro de las fechas permitidas.
+
+    Consultar el estado de las solicitudes e inscripciones.
+
+    Registrar la trazabilidad de las operaciones académicas realizadas.
+
+    Sincronizar las inscripciones oficiales con el sistema académico legado.
+
+2.2 Condiciones de operación
+
+Código	Condición
+C01	Durante las primeras horas de matrícula pueden conectarse 1.200 estudiantes simultáneamente.
+C02	El 95 % de las consultas de asignaturas debe responder en máximo 2 segundos.
+C03	El sistema debe mantener una disponibilidad mensual de al menos 99,9 % durante los períodos de matrícula.
+C04	Ningún grupo académico puede registrar más estudiantes que su capacidad autorizada.
+C05	El sistema académico legado puede presentar interrupciones de hasta 40 minutos.
+C06	El tiempo objetivo de recuperación (RTO, Recovery Time Objective) será de 30 minutos.
+C07	El punto objetivo de recuperación (RPO, Recovery Point Objective) será de máximo 5 minutos.
+C08	La universidad dispone de infraestructura Linux y PostgreSQL, y no autoriza inicialmente contratar servicios comerciales adicionales.
+C09	Los datos académicos y personales deben contar con controles de acceso, trazabilidad y protección.
+C10	El equipo institucional de mantenimiento estará conformado por cuatro desarrolladores y un administrador de infraestructura.
+
+Condición adicional: El sistema académico legado seguirá siendo la fuente oficial para el historial académico y los prerrequisitos. La nueva plataforma administrará las inscripciones del período y deberá sincronizarlas con el sistema legado.
+
+Los arquitectos deberán resolver cómo manejar la dependencia entre ambos sistemas sin generar confirmaciones incorrectas ni registros duplicados.
+3. Situación extraordinaria
+
+Durante la evaluación, cada estudiante deberá resolver una situación adicional según su Ultimo Numero del documento de identidad. 
+
+Ultimo digito par – Escenario A: indisponibilidad
+
+Al iniciar el período de matrícula, el sistema académico legado deja de responder durante 40 minutos.
+
+La propuesta deberá determinar qué operaciones pueden continuar, cuáles deben restringirse, cómo se informa al estudiante y cómo se recupera la operación normal, evitando inscripciones inválidas.
+Ultimo digito impar – Escenario B: concurrencia
+
+Durante el proceso de matrícula, el número de usuarios concurrentes aumenta un 50 %. Adicionalmente, algunos estudiantes envían hasta cinco veces la misma solicitud debido a reintentos automáticos.
+
+La propuesta deberá explicar cómo mantener la consistencia de cupos, impedir inscripciones duplicadas y controlar la degradación del rendimiento.
+
+Este escenario deberá incorporarse en los diseños, decisiones arquitectónicas y mecanismos de validación. No será suficiente mencionarlo únicamente como un riesgo.
