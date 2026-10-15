@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 850" width="1200" height="850" style="background:#ffffff; font-family:'Segoe UI', Helvetica, Arial, sans-serif;">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity="0.15" />
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#444444" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="600" y="35" text-anchor="middle" font-size="22" font-weight="bold" fill="#111111">[Diagrama de Componentes - C4 Nivel 3]</text>
+  <text x="600" y="60" text-anchor="middle" font-size="14" fill="#555555">Módulo de Inscripciones y Control Atómico de Cupos (C01, C04, C05, Escenarios A y B)</text>
+
+  <!-- CONTAINER BOUNDARY -->
+  <rect x="40" y="90" width="1120" height="580" rx="10" fill="#f4f8fd" stroke="#438dd5" stroke-width="2" stroke-dasharray="6 6" />
+  <text x="65" y="115" font-size="14" font-weight="bold" fill="#1168bd">Contenedor: API Backend PIA (Monolito Modular con Arquitectura Hexagonal)</text>
+
+  <!-- COMPONENT 1: REST Controller -->
+  <g transform="translate(70, 160)" filter="url(#shadow)">
+    <rect x="0" y="0" width="220" height="90" rx="6" fill="#85bbf0" stroke="#438dd5" stroke-width="1.5"/>
+    <text x="110" y="28" text-anchor="middle" font-size="14" font-weight="bold" fill="#0b4884">InscripcionController</text>
+    <text x="110" y="46" text-anchor="middle" font-size="11" fill="#333333">[Spring Boot / Gin Controller]</text>
+    <text x="110" y="68" text-anchor="middle" font-size="10" fill="#222222">Expone POST /api/v1/inscripciones</text>
+    <text x="110" y="80" text-anchor="middle" font-size="10" fill="#222222">y DELETE /api/v1/inscripciones</text>
+  </g>
+
+  <!-- COMPONENT 2: Idempotency Filter -->
+  <g transform="translate(340, 160)" filter="url(#shadow)">
+    <rect x="0" y="0" width="230" height="90" rx="6" fill="#85bbf0" stroke="#438dd5" stroke-width="1.5"/>
+    <text x="115" y="28" text-anchor="middle" font-size="14" font-weight="bold" fill="#0b4884">IdempotencyMiddleware</text>
+    <text x="115" y="46" text-anchor="middle" font-size="11" fill="#333333">[Filtro HTTP / Interceptor]</text>
+    <text x="115" y="68" text-anchor="middle" font-size="10" fill="#222222">Valida cabecera Idempotency-Key.</text>
+    <text x="115" y="80" text-anchor="middle" font-size="10" fill="#222222">Frena ráfagas de 5 reintentos (Esc. B)</text>
+  </g>
+
+  <!-- COMPONENT 3: Application Service -->
+  <g transform="translate(620, 150)" filter="url(#shadow)">
+    <rect x="0" y="0" width="260" height="110" rx="6" fill="#1168bd" stroke="#0b4884" stroke-width="2"/>
+    <text x="130" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">InscripcionAppService</text>
+    <text x="130" y="48" text-anchor="middle" font-size="11" fill="#d1e3f8">[Servicio de Aplicación / Orquestador]</text>
+    <text x="130" y="70" text-anchor="middle" font-size="10" fill="#ffffff">Coordina validación de reglas, reserva</text>
+    <text x="130" y="84" text-anchor="middle" font-size="10" fill="#ffffff">atómica, persistencia, auditoría y outbox</text>
+    <text x="130" y="98" text-anchor="middle" font-size="10" fill="#a9d2fb">Demarca límite transaccional @Transactional</text>
+  </g>
+
+  <!-- COMPONENT 4: Motor de Reglas Académicas -->
+  <g transform="translate(70, 330)" filter="url(#shadow)">
+    <rect x="0" y="0" width="250" height="120" rx="6" fill="#85bbf0" stroke="#438dd5" stroke-width="1.5"/>
+    <text x="125" y="26" text-anchor="middle" font-size="14" font-weight="bold" fill="#0b4884">MotorReglasAcademicas</text>
+    <text x="125" y="44" text-anchor="middle" font-size="11" fill="#333333">[Domain Service - Aislado (QA-05)]</text>
+    <text x="125" y="66" text-anchor="middle" font-size="10" fill="#222222">1. Valida Prerrequisitos (Kárdex local)</text>
+    <text x="125" y="80" text-anchor="middle" font-size="10" fill="#222222">2. Detecta cruces de horario</text>
+    <text x="125" y="94" text-anchor="middle" font-size="10" fill="#222222">3. Valida límites de créditos permitidos</text>
+    <text x="125" y="108" text-anchor="middle" font-size="10" fill="#0b4884">Tolerante a caída del legado (Esc. A)</text>
+  </g>
+
+  <!-- COMPONENT 5: Gestor Atómico de Cupos -->
+  <g transform="translate(360, 330)" filter="url(#shadow)">
+    <rect x="0" y="0" width="240" height="120" rx="6" fill="#1168bd" stroke="#0b4884" stroke-width="2"/>
+    <text x="120" y="26" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">GestorCuposAtomico</text>
+    <text x="120" y="44" text-anchor="middle" font-size="11" fill="#d1e3f8">[Domain Service - Consistencia C04]</text>
+    <text x="120" y="66" text-anchor="middle" font-size="10" fill="#ffffff">Ejecuta reserva condicional atómica:</text>
+    <text x="120" y="80" text-anchor="middle" font-size="10" fill="#a9d2fb">UPDATE grupos SET cupos = cupos + 1</text>
+    <text x="120" y="94" text-anchor="middle" font-size="10" fill="#a9d2fb">WHERE cupos &lt; max (Row lock 1ms)</text>
+    <text x="120" y="108" text-anchor="middle" font-size="10" fill="#ffffff">Garantiza exactamente 0 sobrecupos</text>
+  </g>
+
+  <!-- COMPONENT 6: Repositorio Inscripciones -->
+  <g transform="translate(640, 330)" filter="url(#shadow)">
+    <rect x="0" y="0" width="220" height="120" rx="6" fill="#85bbf0" stroke="#438dd5" stroke-width="1.5"/>
+    <text x="110" y="26" text-anchor="middle" font-size="14" font-weight="bold" fill="#0b4884">InscripcionRepository</text>
+    <text x="110" y="44" text-anchor="middle" font-size="11" fill="#333333">[Data Access Object / Port]</text>
+    <text x="110" y="66" text-anchor="middle" font-size="10" fill="#222222">Persiste estado de inscripción:</text>
+    <text x="110" y="80" text-anchor="middle" font-size="10" fill="#0b4884">INSCRITO_PENDIENTE_SYNC</text>
+    <text x="110" y="96" text-anchor="middle" font-size="10" fill="#222222">Control de unicidad compuesta</text>
+    <text x="110" y="110" text-anchor="middle" font-size="10" fill="#222222">UNIQUE(estudiante, asignatura)</text>
+  </g>
+
+  <!-- COMPONENT 7: AuditoriaService -->
+  <g transform="translate(900, 330)" filter="url(#shadow)">
+    <rect x="0" y="0" width="230" height="120" rx="6" fill="#85bbf0" stroke="#438dd5" stroke-width="1.5"/>
+    <text x="115" y="26" text-anchor="middle" font-size="14" font-weight="bold" fill="#0b4884">AuditoriaService</text>
+    <text x="115" y="44" text-anchor="middle" font-size="11" fill="#333333">[Security & Audit Port - C09]</text>
+    <text x="115" y="66" text-anchor="middle" font-size="10" fill="#222222">Bitácora inmutable Append-Only.</text>
+    <text x="115" y="80" text-anchor="middle" font-size="10" fill="#222222">Captura: timestamp (ms), user_id,</text>
+    <text x="115" y="94" text-anchor="middle" font-size="10" fill="#222222">ip_origen, accion, estado, diff JSON.</text>
+    <text x="115" y="108" text-anchor="middle" font-size="10" fill="#0b4884">Garantía estricta de no repudio</text>
+  </g>
+
+  <!-- COMPONENT 8: OutboxPublisher / ACL Adapter -->
+  <g transform="translate(620, 500)" filter="url(#shadow)">
+    <rect x="0" y="0" width="260" height="110" rx="6" fill="#85bbf0" stroke="#438dd5" stroke-width="1.5"/>
+    <text x="130" y="26" text-anchor="middle" font-size="14" font-weight="bold" fill="#0b4884">OutboxPublisher / ACL</text>
+    <text x="130" y="44" text-anchor="middle" font-size="11" fill="#333333">[Anti-Corruption Layer Port]</text>
+    <text x="130" y="66" text-anchor="middle" font-size="10" fill="#222222">Escribe evento de integración en</text>
+    <text x="130" y="80" text-anchor="middle" font-size="10" fill="#222222">la tabla outbox.eventos_sincronizacion</text>
+    <text x="130" y="96" text-anchor="middle" font-size="10" fill="#0b4884">Aísla el modelo de dominio del Legado</text>
+  </g>
+
+  <!-- DATABASE INFRASTRUCTURE BOUNDARY -->
+  <g transform="translate(150, 700)" filter="url(#shadow)">
+    <rect x="0" y="0" width="900" height="100" rx="8" fill="#2366a2" stroke="#16436e" stroke-width="2"/>
+    <text x="450" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">Motor de Base de Datos PostgreSQL (Límite Transaccional ACID)</text>
+    <text x="450" y="50" text-anchor="middle" font-size="11" fill="#d1e3f8">Una sola transacción atómica consolida: Cupo Actualizado + Inscripción Creada + Auditoría + Evento Outbox</text>
+    <text x="180" y="78" text-anchor="middle" font-size="10" fill="#ffffff">matricula.grupos_cupos</text>
+    <text x="360" y="78" text-anchor="middle" font-size="10" fill="#ffffff">matricula.inscripciones</text>
+    <text x="540" y="78" text-anchor="middle" font-size="10" fill="#ffffff">auditoria.trazabilidad</text>
+    <text x="720" y="78" text-anchor="middle" font-size="10" fill="#ffffff">outbox.eventos_sincronizacion</text>
+    <text x="850" y="78" text-anchor="middle" font-size="10" fill="#a9d2fb">replica_legado.kardex</text>
+  </g>
+
+  <!-- FLOW ARROWS -->
+  <path d="M 290 205 L 340 205" stroke="#444444" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 570 205 L 620 205" stroke="#444444" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- AppService to Rules Engine -->
+  <path d="M 640 260 L 640 290 L 195 290 L 195 330" stroke="#444444" stroke-width="1.5" marker-end="url(#arrow)" fill="none"/>
+  <text x="400" y="282" text-anchor="middle" font-size="10" fill="#444444">1. Valida Prerrequisitos y Horarios</text>
+
+  <!-- AppService to Atomic Cupos -->
+  <path d="M 700 260 L 700 300 L 480 300 L 480 330" stroke="#444444" stroke-width="1.5" marker-end="url(#arrow)" fill="none"/>
+  <text x="580" y="295" text-anchor="middle" font-size="10" fill="#444444">2. Reserva Cupo</text>
+
+  <!-- AppService to Repo -->
+  <path d="M 750 260 L 750 330" stroke="#444444" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="790" y="295" text-anchor="middle" font-size="10" fill="#444444">3. Guarda Registro</text>
+
+  <!-- AppService to Audit -->
+  <path d="M 800 260 L 800 290 L 1015 290 L 1015 330" stroke="#444444" stroke-width="1.5" marker-end="url(#arrow)" fill="none"/>
+  <text x="920" y="282" text-anchor="middle" font-size="10" fill="#444444">4. Audita Transacción</text>
+
+  <!-- AppService to Outbox -->
+  <path d="M 750 450 L 750 500" stroke="#444444" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="795" y="478" text-anchor="middle" font-size="10" fill="#444444">5. Encola Outbox</text>
+
+  <!-- Outbox to DB -->
+  <path d="M 750 610 L 750 700" stroke="#444444" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Legend -->
+  <g transform="translate(60, 815)">
+    <text x="10" y="16" font-size="11" font-weight="bold" fill="#333333">Convenciones:</text>
+    <rect x="110" y="4" width="14" height="14" rx="2" fill="#85bbf0"/>
+    <text x="130" y="16" font-size="10" fill="#444444">Componente de Aplicación / Puerto</text>
+    <rect x="340" y="4" width="14" height="14" rx="2" fill="#1168bd"/>
+    <text x="360" y="16" font-size="10" fill="#444444">Servicio Core Transaccional</text>
+    <rect x="560" y="4" width="14" height="14" rx="2" fill="#2366a2"/>
+    <text x="580" y="16" font-size="10" fill="#444444">Persistencia Relacional PostgreSQL</text>
+  </g>
+</svg>
